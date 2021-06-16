@@ -1,0 +1,11 @@
+# deny-host-network.rego
+package spinnaker.deployment.tasks.deployManifest
+
+deny[msg] {
+    manifests := input.deploy.manifests
+    manifest := manifests[_]
+
+    manifest.kind == "Pod"
+    manifest.spec.hostNetwork == true
+    msg := "Sharing the host notwork must be disallowed"
+}
